@@ -1,15 +1,13 @@
-var fs = require('fs'),
-    path = require('path');
+const server = require('./lib/server');
+const client = require('./lib/client');
+const none = require('./lib/auth/None');
+const password = require('./lib/auth/UserPassword');
 
-['server', 'client', 'Agents'].forEach(function(f) {
-  var exp = require(__dirname + '/lib/' + f),
-      keys = Object.keys(exp);
-  for (var i = 0, len = keys.length; i < len; ++i)
-    exports[keys[i]] = exp[keys[i]];
-});
-
-exports.auth = {};
-
-fs.readdirSync(__dirname + '/lib/auth').forEach(function(f) {
-  exports.auth[path.basename(f, '.js')] = require(__dirname + '/lib/auth/' + f);
-});
+module.exports = {
+  server,
+  client,
+  auth: {
+    none,
+    password
+  }
+};
